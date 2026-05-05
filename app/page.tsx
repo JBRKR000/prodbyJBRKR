@@ -1,10 +1,7 @@
-import Image from "next/image";
+import { HomePage } from "@/features/home";
 
 export default function Home() {
-
-
-
   return (
-   <span>welcome</span>
+    <HomePage />
   );
 }
