@@ -2,7 +2,7 @@ import { Instagram, Soundcloud, X, Youtube } from "./components/Icons";
 import type { BeatPreview, NavItem, SocialLink, StatItem } from "./types";
 
 export const brand = {
-  name: "JBRKR",
+  name: "prod.JBRKR",
   imageUrl:
     "https://firebasestorage.googleapis.com/v0/b/banani-prod.appspot.com/o/reference-images%2F54132a76-3322-467a-959a-18a73e7d5b17?alt=media&token=4dcf0b19-8805-419a-86f6-ede47eeb37ad",
 } as const;
@@ -15,8 +15,8 @@ export const navItems = [
 ] satisfies readonly NavItem[];
 
 export const producerStats = [
-  { value: "50+", label: "Placements" },
-  { value: "10M+", label: "Streams" },
+  { value: "100+", label: "Beats Produced"},
+  { value: "5k+", label: "Streams" },
 ] satisfies readonly StatItem[];
 
 export const beatCatalog = [

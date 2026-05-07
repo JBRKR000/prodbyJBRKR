@@ -2,18 +2,23 @@ import Image from "next/image";
 import { brand, producerStats } from "../constants";
 
 export function AboutSection() {
+
   return (
     <section id="about" className="relative px-4 py-24 sm:px-6">
       <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 lg:gap-16">
-        <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-surface p-8">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgb(96_165_250_/_0.12),transparent_46%,rgb(147_51_234_/_0.1))]" />
-          <Image
-            src={brand.imageUrl}
-            alt="JBRKR"
-            width={720}
-            height={720}
-            className="relative z-10 h-full w-full object-contain drop-shadow-[0_0_30px_rgb(255_255_255_/_0.2)] mix-blend-screen"
-          />
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-linear-to-b from-surface/80 to-surface/40 p-4 shadow-lg">
+          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(135deg,rgb(96_165_250/0.12),transparent_46%,rgb(147_51_234/0.1))]" />
+          <div className="relative h-[clamp(352px,62vw,480px)] w-full overflow-hidden rounded-xl">
+            <iframe
+              data-testid="embed-iframe"
+              className="absolute inset-0 h-full w-full border-0 outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+              src="https://open.spotify.com/embed/artist/1N35yWC7vZiVlS21xN3fts?utm_source=generator&theme=0"
+              tabIndex={-1}
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col items-start text-left">
