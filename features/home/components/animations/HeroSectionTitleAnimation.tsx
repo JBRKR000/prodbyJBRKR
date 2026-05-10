@@ -1,71 +1,125 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-type TypeWriterProps = {
+type GlitchTextProps = {
   text: string;
-  speed?: number;
+  duration?: number;
+  frameRate?: number;
   start?: boolean;
   onComplete?: () => void;
 };
 
-export function Typewriter({
+type HeroSectionTitleAnimationProps = {
+  onComplete?: () => void;
+};
+
+const GLITCH_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}<>?";
+
+function getRandomGlitchChar() {
+  return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+}
+
+export function GlitchText({
   text,
-  speed = 100,
+  duration = 1200,
+  frameRate = 120,
   start = true,
   onComplete,
-}: TypeWriterProps) {
+}: GlitchTextProps) {
   const [displayedText, setDisplayedText] = useState("");
-  const isComplete = displayedText.length >= text.length;
+  const isAnimating = start && displayedText !== text;
 
   useEffect(() => {
-    let index = 0;
-
-    if (!start || text.length === 0) {
+    if (!start) {
       return;
     }
 
-    const interval = setInterval(() => {
-      setDisplayedText(text.slice(0, index + 1));
-      index++;
+    if (text.length === 0) {
+      onComplete?.();
+      return;
+    }
 
-      if (index >= text.length) {
+    let frame = 0;
+    const totalFrames = Math.max(1, Math.ceil(duration / frameRate));
+
+    const interval = setInterval(() => {
+      frame += 1;
+      const progress = Math.min(frame / totalFrames, 1);
+      const fixedChars = Math.floor(progress * text.length);
+
+      const nextText = text
+        .split("")
+        .map((char, index) => {
+          if (char === " ") {
+            return " ";
+          }
+
+          return index < fixedChars ? char : getRandomGlitchChar();
+        })
+        .join("");
+
+      setDisplayedText(nextText);
+
+      if (progress >= 1) {
         clearInterval(interval);
+        setDisplayedText(text);
         onComplete?.();
       }
-    }, speed);
+    }, frameRate);
 
     return () => clearInterval(interval);
-  }, [text, speed, start, onComplete]);
+  }, [duration, frameRate, onComplete, start, text]);
 
   return (
-    <span>
+    <span
+      className={
+        isAnimating
+          ? "inline-block animate-pulse tracking-[0.02em] sm:tracking-[0.04em]"
+          : "inline-block"
+      }
+    >
       {displayedText}
-      {start && !isComplete && <span className="animate-pulse">|</span>}
     </span>
   );
 }
 
-export const HeroSectionTitleAnimation = () => {
-  const typingSpeed = 75;
+export const HeroSectionTitleAnimation = ({
+  onComplete,
+}: HeroSectionTitleAnimationProps) => {
   const [activeLineIndex, setActiveLineIndex] = useState(0);
+  const hasCompletedRef = useRef(false);
   const lines = ["Next-gen", "Production & Beats"];
+
   const handleLineComplete = useCallback(() => {
-    setActiveLineIndex((currentIndex) => currentIndex + 1);
-  }, []);
+    setActiveLineIndex((currentIndex) =>
+      Math.min(currentIndex + 1, lines.length),
+    );
+  }, [lines.length]);
+
+  useEffect(() => {
+    if (activeLineIndex < lines.length || hasCompletedRef.current) {
+      return;
+    }
+
+    hasCompletedRef.current = true;
+    onComplete?.();
+  }, [activeLineIndex, lines.length, onComplete]);
 
   return (
-    <h1 className="mb-6 font-headings text-5xl font-bold leading-tight tracking-normal md:text-7xl">
-      <Typewriter
+    <h1 className="mb-5 max-w-full break-words font-headings text-[2.65rem] font-bold leading-[1.08] tracking-normal sm:mb-6 sm:text-5xl sm:leading-tight md:text-7xl">
+      <GlitchText
         text={lines[0]}
-        speed={typingSpeed}
+        duration={1000}
+        frameRate={75}
         start={activeLineIndex === 0}
         onComplete={handleLineComplete}
       />
       <br />
-      <span className="bg-gradient-to-r from-accent-blue to-accent-violet bg-clip-text text-transparent">
-        <Typewriter
+      <span className="bg-gradient-to-r from-white via-red-300 to-red-700 bg-clip-text text-transparent">
+        <GlitchText
           text={lines[1]}
-          speed={typingSpeed}
+          duration={1000}
+          frameRate={75}
           start={activeLineIndex === 1}
           onComplete={handleLineComplete}
         />
@@ -73,5 +127,3 @@ export const HeroSectionTitleAnimation = () => {
     </h1>
   );
 };
-
-

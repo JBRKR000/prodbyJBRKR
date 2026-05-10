@@ -3,16 +3,16 @@
 :root {
   --background: #050505;
   --foreground: #ffffff;
-  --primary: #ffffff;
-  --primary-foreground: #050505;
-  --muted-foreground: #a3a3a3;
-  --surface: rgb(255 255 255 / 0.05);
-  --surface-strong: rgb(255 255 255 / 0.1);
-  --border: rgb(255 255 255 / 0.1);
-  --social-icon: #343c54;
-  --accent-blue: #60a5fa;
-  --accent-violet: #9333ea;
-  --accent-green: #4ade80;
+  --primary: #dc2626;
+  --primary-foreground: #ffffff;
+  --muted-foreground: #a1a1aa;
+  --surface: rgb(255 255 255 / 0.04);
+  --surface-strong: rgb(255 255 255 / 0.12);
+  --border: rgb(255 255 255 / 0.14);
+  --social-icon: #a1a1aa;
+  --accent-blue: #ef4444;
+  --accent-violet: #b91c1c;
+  --accent-green: #f87171;
   --radius-panel: 8px;
   --font-family-body: var(--font-space-grotesk);
   --font-family-headings: var(--font-space-grotesk);

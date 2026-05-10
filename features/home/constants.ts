@@ -1,4 +1,4 @@
-import { Instagram, Soundcloud, X, Youtube } from "./components/Icons";
+import { Instagram, Soundcloud, Youtube } from "./components/Icons";
 import type { BeatPreview, NavItem, SocialLink, StatItem } from "./types";
 
 export const brand = {
